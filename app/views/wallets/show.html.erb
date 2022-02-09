@@ -1,0 +1,76 @@
+
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row" style="height: 10px;"></div>
+        <h1 class="fw-light"><%= @wallet.name %> (<small><%= link_to @wallet.address, "https://etherscan.io/address/#{@wallet.address}" %></small> )</h1>
+        <div class="row">
+          <div class="col-lg-6" style="margin-top:10px">
+            <h6>Eth Inflow (from transactions): <%= Transaction.eth_inflows(@wallet.address) %></h6>
+            <h6>Eth Outflow (from transactions): <%= Transaction.eth_outflows(@wallet.address) %></h6>
+            <h6>Eth Inflow (from internal-transactions): <%= InternalTransaction.eth_inflows(@wallet.address) %></h6>
+            <h6>Eth Outflow (from internal-transactions): <%= InternalTransaction.eth_outflows(@wallet.address) %></h6>
+            <h6>Calculated balance (ETH): <%= TransactionCalculator.calculate_eth_balance(@wallet.address) %></h6>
+          </div>
+          <% @erc20_inflows.each do |sym, inflow| %>
+            <div class="col-lg-6" style="margin-top:10px;margin-bottom: 10px;">
+              <h6><%= sym %> Inflow: <%= inflow %></h6>
+              <h6><%= sym %> Outflow: <%= @erc20_outflows[sym].present? ? @erc20_outflows[sym] : 0 %></h6>
+              <h6>Calculated balance (<%= sym %>): <%= inflow - (@erc20_outflows[sym].present? ? @erc20_outflows[sym] : 0) %></h6>
+            </div>
+          <% end -%>
+        </div>
+        <h4 class="fw-light">Transactions (only non-zero flow)</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>index</td>
+              <td>tx hash</td>
+              <td>to</td>
+              <td>from</td>
+              <td>flow</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% @wallet_transactions.each_with_index do |tx, i| %>
+              <% if tx.flow(@wallet.address) != 0 %>
+                <tr>
+                  <td><%= i %></td>
+                  <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
+                  <td><%= tx.to %></td>
+                  <td><%= tx.from %></td>
+                  <td><%= tx.flow(@wallet.address) %></td>
+                </tr>                
+              <% end %>
+
+            <% end -%>
+          </tbody>
+        </table>
+        <h4 class="fw-light">Internal Transactions</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>index</td>
+              <td>tx hash</td>
+              <td>to</td>
+              <td>from</td>
+              <td>flow</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% @internal_transactions.each_with_index do |tx, i| %>
+              <tr>
+                <td><%= i %></td>
+                <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
+                <td><%= tx.to %></td>
+                <td><%= tx.from %></td>
+                <td><%= tx.flow(@wallet.address) %></td>
+              </tr>
+            <% end -%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>

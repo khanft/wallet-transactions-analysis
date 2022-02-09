@@ -1,0 +1,2 @@
+class NftTransaction < ApplicationRecord
+end

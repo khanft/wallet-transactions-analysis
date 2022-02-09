@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  block_number: 1
+  unixtimestamp: 1
+  hash: MyString
+  from: MyString
+  contract_address: MyString
+  to: MyString
+  value: 
+  gas: 
+  gas_used: 
+  gas_price: 
+  cumulative_gas_used: 
+  is_error: false
+  txreciept_status: MyString
+
+two:
+  block_number: 1
+  unixtimestamp: 1
+  hash: MyString
+  from: MyString
+  contract_address: MyString
+  to: MyString
+  value: 
+  gas: 
+  gas_used: 
+  gas_price: 
+  cumulative_gas_used: 
+  is_error: false
+  txreciept_status: MyString

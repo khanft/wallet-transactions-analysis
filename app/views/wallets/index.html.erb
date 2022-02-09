@@ -1,0 +1,16 @@
+
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Tracked Wallets</h1>
+        <% @wallets.each do |w| %>
+          <div class="row">
+            <h5><%= link_to "#{w.name} - #{w.address}", wallet_path(w) %>  </small></h5>   
+          </div>
+            
+        <% end -%>
+      </div>
+    </div>
+  </section>
+</main>
