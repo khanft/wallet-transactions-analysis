@@ -1,5 +1,3 @@
-
-
 class EtherscanAPI
   MAINNET_DEFAULT_CONNECT_OPTIONS = {
     open_timeout: 10,
@@ -40,7 +38,7 @@ class EtherscanAPI
 
   def get_erc20_transactions
     begin
-    MAINNET_ETHERSCAN.account_tokentx(@address)
+    MAINNET_ETHERSCAN.account_tokentx(address: @address, start_block: 0)
     rescue Exception => e
       return []
     end
@@ -64,35 +62,32 @@ class EtherscanAPI
   def parse_erc20_transactions
     txs = get_erc20_transactions
     txs.each do |tx|
-      puts tx
-      erc20_tx = Erc20Transaction.where(hash: tx["hash"]).first
+      erc20_tx = Erc20Transaction.where(hash: tx["hash"], token_symbol: tx["tokenSymbol"], value: tx["value"], from: tx["from"], to: tx["to"], contract_address: tx["contractAddress"]).first
       if erc20_tx.nil?
-        # create 
-        puts tx
         hsh = tx["hash"]
         bn = tx["blockNumber"]
         ts = tx["timeStamp"]
-      begin
-        erc20_tx = Erc20Transaction.create(
-          hash: hsh,
-          block_number: bn,
-          unixtimestamp: ts,
-          block_hash: tx["blockHash"],
-          from: tx["from"],
-          contract_address: tx["contractAddress"],
-          to: tx["to"],
-          value: tx["value"],
-          token_name: tx["tokenName"],
-          token_symbol: tx["tokenSymbol"],
-          token_decimal: tx["tokenDecimal"],
-          gas: tx["gas"],
-          gas_used: tx["gasUsed"],
-          gas_price: tx["gasPrice"],
-          cumulative_gas_used: tx["cumulativeGasUsed"])
-      rescue Exception => e
-        # for some reason we can save but this returns an error
-        puts e
-      end
+        begin
+          erc20_tx = Erc20Transaction.create(
+            hash: hsh,
+            block_number: bn,
+            unixtimestamp: ts,
+            block_hash: tx["blockHash"],
+            from: tx["from"],
+            contract_address: tx["contractAddress"],
+            to: tx["to"],
+            value: tx["value"],
+            token_name: tx["tokenName"],
+            token_symbol: tx["tokenSymbol"],
+            token_decimal: tx["tokenDecimal"],
+            gas: tx["gas"],
+            gas_used: tx["gasUsed"],
+            gas_price: tx["gasPrice"],
+            cumulative_gas_used: tx["cumulativeGasUsed"])
+        rescue Exception => e
+          # for some reason we can save but this returns an error
+          puts e
+        end
       end
     end
   end

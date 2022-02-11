@@ -1,4 +1,21 @@
 class Erc20Transaction < ApplicationRecord
+  has_many :transaction_categorizations
+  has_many :categories, through: :transaction_categorizations
+
+  def self.grouped_by_erc20 address
+    tokens = Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).map(&:token_symbol).uniq
+    token_grouping = {}
+    tokens.each do |t|
+      txs = Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).or(Erc20Transaction.where('lower(erc20_transactions.from) = ?', address.downcase)).where(token_symbol: t).where.not(value: 0)
+      if txs.nil?
+        token_grouping[t] = []
+      else
+
+        token_grouping[t] = txs
+      end
+    end
+    token_grouping
+  end
   def self.inflows(address)
     transactions = Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).where.not(value: 0).all
     unprocessed_data = {}
@@ -20,6 +37,21 @@ class Erc20Transaction < ApplicationRecord
     end
     return data
   end
+  def flow(address)
+    if self.value == 0 
+      return 0
+    end
+    if self.to.downcase == address.downcase
+      return self.value.to_f / 10.0**self.token_decimal
+    end
+    return (self.value.to_f / 10.0**self.token_decimal) * -1
+  end
+  def self.inflow_by_token(address, token_symbol)
+    Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).where.not(value: 0).where(token_symbol: token_symbol).order(:unixtimestamp)
+  end
+  def self.outflow_by_token(address, token_symbol)
+    Erc20Transaction.where('lower(erc20_transactions.from) = ?', address.downcase).where.not(value: 0).where(token_symbol: token_symbol).order(:unixtimestamp)
+  end
   def self.outflows(address)
     transactions = Erc20Transaction.where('lower(erc20_transactions.from) = ?', address.downcase).where.not(value: 0).all
     unprocessed_data = {}
@@ -40,5 +72,8 @@ class Erc20Transaction < ApplicationRecord
       end
     end
     return data
+  end
+  def self.by_wallet(address)
+    Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).or(Erc20Transaction.where('lower(erc20_transactions.from) = ?', address.downcase))
   end
 end

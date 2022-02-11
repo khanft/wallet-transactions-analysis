@@ -10,6 +10,7 @@ class WalletsController < ApplicationController
     @internal_transactions = InternalTransaction.by_wallet(@wallet.address)
     @erc20_inflows = Erc20Transaction.inflows(@wallet.address)
     @erc20_outflows = Erc20Transaction.outflows(@wallet.address)
+    @grouped_by_erc20 = Erc20Transaction.grouped_by_erc20(@wallet.address)
     render :show
   end
 end

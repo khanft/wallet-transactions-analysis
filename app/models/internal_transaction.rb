@@ -1,4 +1,7 @@
 class InternalTransaction < ApplicationRecord
+  def categories
+    TransactionCategorization.where(internal_tranaction_id: self.id).map(&:category)
+  end
   def self.eth_inflows(address)
     nonzero_transactions = InternalTransaction.where('lower(internal_transactions.to) = ?', address.downcase).where.not(value: 0).where.not(is_error: true).all
     ids = nonzero_transactions.map {|t| {"hash": t.hash, "value": t.value.to_f / 10.0**18 }}
@@ -12,7 +15,7 @@ class InternalTransaction < ApplicationRecord
     nonzero_transactions.map {|t| t.value.to_f }.sum / 10.0**18
   end
   def self.by_wallet(address)
-    InternalTransaction.where('lower(internal_transactions.to) = ?', address.downcase).or(Transaction.where('lower(internal_transactions.from) = ?', address.downcase))
+    InternalTransaction.where('lower(internal_transactions.to) = ?', address.downcase).or(InternalTransaction.where('lower(internal_transactions.from) = ?', address.downcase))
   end
   def flow(address)
     if self.value == 0 

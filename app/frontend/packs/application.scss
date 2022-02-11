@@ -5,3 +5,24 @@
   
 // Import Bootstrap v5  
 @import "~bootstrap/scss/bootstrap";  
+
+
+
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid #e9ecef;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+    &.bd-callout-info {
+        border-left-color: steelblue;
+    }
+}
+.bd-callout-warning {
+    border-left-color: #f0ad4e;
+}
+
+.badge-primary {
+    background-color: steelblue;
+}

@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  has_many :transaction_categorizations
+  has_many :categories, through: :transaction_categorizations
 
   def self.by_wallet(address)
     Transaction.where('lower(transactions.to) = ?', address.downcase).or(Transaction.where('lower(transactions.from) = ?', address.downcase))

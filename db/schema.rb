@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_223559) do
+ActiveRecord::Schema.define(version: 2022_02_10_154118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "erc20_transactions", force: :cascade do |t|
     t.integer "block_number"
@@ -83,6 +89,21 @@ ActiveRecord::Schema.define(version: 2022_02_09_223559) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "transaction_categorizations", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.bigint "internal_transaction_id"
+    t.bigint "nft_transaction_id"
+    t.bigint "erc20_transaction_id"
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_transaction_categorizations_on_category_id"
+    t.index ["erc20_transaction_id"], name: "index_transaction_categorizations_on_erc20_transaction_id"
+    t.index ["internal_transaction_id"], name: "index_transaction_categorizations_on_internal_transaction_id"
+    t.index ["nft_transaction_id"], name: "index_transaction_categorizations_on_nft_transaction_id"
+    t.index ["transaction_id"], name: "index_transaction_categorizations_on_transaction_id"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.integer "block_number"
     t.integer "unixtimestamp"
@@ -101,4 +122,9 @@ ActiveRecord::Schema.define(version: 2022_02_09_223559) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "transaction_categorizations", "categories"
+  add_foreign_key "transaction_categorizations", "erc20_transactions"
+  add_foreign_key "transaction_categorizations", "internal_transactions"
+  add_foreign_key "transaction_categorizations", "nft_transactions"
+  add_foreign_key "transaction_categorizations", "transactions"
 end
