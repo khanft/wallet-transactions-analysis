@@ -13,6 +13,8 @@ class WalletsController < ApplicationController
     @grouped_by_erc20 = Erc20Transaction.grouped_by_erc20(@wallet.address)
     @weth_unwrapped = Erc20Transaction.synthetic_weth_outflows @wallet.address 
     @weth_wrapped = Erc20Transaction.synthetic_weth_inflows @wallet.address
+    @all_categories = Category.all
+    @wallets = ScrapableAddress.all
     render :show
   end
 end

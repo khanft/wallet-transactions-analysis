@@ -41,7 +41,7 @@
             <table class="table collapse" id="table1" style="font-size: 0.8em;">
               <thead>
                 <tr>
-                  <td>index</td>
+                  <td>date</td>
                   <td>tx hash</td>
                   <td>to</td>
                   <td>from</td>
@@ -50,18 +50,18 @@
                 </tr>
               </thead>
               <tbody>
-                <% @wallet_transactions.each_with_index do |tx, i| %>
+                <% @wallet_transactions.sort_by {|tx| tx.unixtimestamp }.each_with_index do |tx, i| %>
                   <% if tx.flow(@wallet.address) != 0 %>
-                    <tr>
-                      <td><%= i %></td>
+                    <tr class="<%= tx.flow(@wallet.address) > 0 ? 'positive-flow' : 'negative-flow' %>">
+                      <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
                       <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
-                      <td><%= tx.to %></td>
-                      <td><%= tx.from %></td>
+                      <td><%= wallet_resolver(@wallets, tx.to) %></td>
+                      <td><%= wallet_resolver(@wallets, tx.from) %></td>
                       <td><%= tx.flow(@wallet.address) %></td>
                       <td>
-                        <div class="labels">
-                          <% tx.categories.each do |c| %>
-                            <span class="badge badge-pill badge-primary"><%= c.name %></span>
+                        <div class="labels" id="transactions-<%= tx.hash %>" >
+                          <% @all_categories.each do |c| %>
+                            <span class="badge badge-pill <%= (tx.categories.map(&:name).include? c.name) ? "badge-active" : "badge-inactive" %> tag tag-<%=c.name%>" onClick='toggleCategory(<%= tx.id %>, <%= c.id %>)'><%= c.name %></span>
                           <% end -%> 
                         </div> 
                       </td>
@@ -82,7 +82,7 @@
             <table class="table collapse" id='table2' style="font-size: 0.8em;">
               <thead>
                 <tr>
-                  <td>index</td>
+                  <td>date</td>
                   <td>tx hash</td>
                   <td>to</td>
                   <td>from</td>
@@ -91,12 +91,12 @@
                 </tr>
               </thead>
               <tbody>
-                <% @internal_transactions.each_with_index do |tx, i| %>
-                  <tr>
-                    <td><%= i %></td>
+                <% @internal_transactions.sort_by {|tx| tx.unixtimestamp }.each_with_index do |tx, i| %>
+                  <tr class="<%= tx.flow(@wallet.address) > 0 ? 'positive-flow' : 'negative-flow' %>">
+                    <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
                     <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
-                    <td><%= tx.to %></td>
-                    <td><%= tx.from %></td>
+                    <td><%= wallet_resolver(@wallets, tx.to) %></td>
+                    <td><%= wallet_resolver(@wallets, tx.from) %></td>
                     <td><%= tx.flow(@wallet.address) %></td>
                     <td></td>
                   </tr>
@@ -138,7 +138,7 @@
                 <table class="table collapse" id="table-<%= key %>" style="font-size: 0.8em;">
                   <thead>
                     <tr>
-                      <td>index</td>
+                      <td>date</td>
                       <td>tx hash</td>
                       <td>to</td>
                       <td>from</td>
@@ -147,13 +147,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% value.each_with_index do |tx, i| %>
+                    <% value.sort_by {|tx| tx.unixtimestamp }.each_with_index do |tx, i| %>
                       <% if tx.flow(@wallet.address) != 0 %>
-                        <tr>
-                          <td><%= i %></td>
+                        <tr class="<%= tx.flow(@wallet.address) > 0 ? 'positive-flow' : 'negative-flow' %>">
+                          <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
                           <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
-                          <td><%= tx.to %></td>
-                          <td><%= tx.from %></td>
+                          <td><%= wallet_resolver(@wallets, tx.to) %></td>
+                          <td><%= wallet_resolver(@wallets, tx.from) %></td>
                           <td><%= tx.flow(@wallet.address) %></td>
                           <td>
                             <div class="labels">
@@ -180,6 +180,9 @@
 <script type="text/javascript">
   function toggleTable(selector) {
     $(selector).collapse('toggle')
+  }
+  function toggleCategory(txID, cID) {
+    console.log(txID, cID)
   }
 
 </script>

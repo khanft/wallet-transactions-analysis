@@ -22,7 +22,39 @@
 .bd-callout-warning {
     border-left-color: #f0ad4e;
 }
+.labels {
+    .badge-pill {
+        transition: background-color 0.2s;
+        &.badge-inactive {
+            background-color: #ddd;
+            &:hover {
+                background-color: #999;
+            }
+        }
+        &.badge-active {
+            background-color: steelblue;
+            &:hover {
+                background-color: darken(steelblue, 10%);
+            }
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
 
 .badge-primary {
     background-color: steelblue;
+}
+
+.badge-active {
+    background-color: steelblue;
+}
+.table {
+    .positive-flow {
+        background-color: rgba(183, 244, 216, 0.3);
+    }
+    .negative-flow {
+        background-color: rgba(255, 0, 0, 0.1);
+    }
 }
