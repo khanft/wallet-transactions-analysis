@@ -1,0 +1,6 @@
+<% if @transactions %>
+	$('.transaction-results-summary').html('<h6><%= @transactions.count %> matching entries</h6>')
+ 	$('.transaction-results').html('<%= escape_javascript render partial: "shared/transactions", locals: { transactions: @transactions, wallet: nil, wallets: @wallets }  %>');
+ 	$('#hidden_transaction_to').attr('value', '<%= @transaction_to%>');
+ 	$('#hidden_transaction_from').attr('value', '<%= @transaction_from%>');
+<% end %>

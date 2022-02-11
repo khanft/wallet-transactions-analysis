@@ -1,0 +1,52 @@
+<table class="table <%= wallet.nil? ? '' : 'collapse' %>" id="table1" style="font-size: 0.8em;">
+  <thead>
+    <tr>
+      <td>date</td>
+      <td>tx hash</td>
+      <td>to</td>
+      <td>from</td>
+      <% unless wallet.nil? %>
+	      <td>flow</td>
+	     <% end -%>
+      <td>labels</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.sort_by {|tx| tx.unixtimestamp }.each_with_index do |tx, i| %>
+      <% if wallet.nil? %>
+        <tr>
+          <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
+          <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
+          <td><%= wallet_resolver(wallets, tx.to) %></td>
+          <td><%= wallet_resolver(wallets, tx.from) %></td>
+          <td>
+            <div class="labels" id="transactions-<%= tx.hash %>" >
+              <% tx.categories.each do |c| %>
+                <span class="badge badge-pill badge-active tag"><%= c.name %></span>
+              <% end -%> 
+            </div> 
+          </td>
+        </tr>   
+      <% else %>
+	      <% if tx.flow(wallet.address) != 0 %>
+	        <tr class="<%= tx.flow(@wallet.address) > 0 ? 'positive-flow' : 'negative-flow' %>">
+	          <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
+	          <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
+	          <td><%= wallet_resolver(wallets, tx.to) %></td>
+	          <td><%= wallet_resolver(wallets, tx.from) %></td>
+            <% unless wallet.nil? %>
+	           <td><%= tx.flow(wallet.address) %></td>
+            <% end -%>
+	          <td>
+	            <div class="labels" id="transactions-<%= tx.hash %>" >
+	              <% tx.categories.each do |c| %>
+	                <span class="badge badge-pill badge-active tag"><%= c.name %></span>
+	              <% end -%> 
+	            </div> 
+	          </td>
+	        </tr>                
+	      <% end %>
+	   <% end -%>
+    <% end -%>
+  </tbody>
+</table>

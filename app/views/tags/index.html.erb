@@ -1,0 +1,12 @@
+
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <% @tags.each do |t| %>
+          <%= link_to t.name, tag_path(t), class: "badge badge-pill badge-active" %>
+        <% end -%>
+      </div>
+    </div>
+  </section>
+</main>

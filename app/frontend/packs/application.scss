@@ -43,6 +43,15 @@
     }
 }
 
+a.badge.badge-pill.badge-active {
+    text-decoration: none;
+    transition: background-color 0.2s;
+    &:hover {
+        color: white;
+        background-color: darken(steelblue, 10%);
+    }
+}
+
 .badge-primary {
     background-color: steelblue;
 }

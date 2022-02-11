@@ -7,12 +7,40 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <% ScrapableAddress.all.each do |wallet| %>
-          <li class="nav-item my-2 my-lg-0">
-            <%= link_to wallet.name, wallet_path(wallet), class: "nav-link"  %>
-          </li>
-        <% end -%>
+        <li class="nav-item dropdown">
+          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="toggleDropdown('#navbarDropdown')">
+            Multi-Sig Wallets
+          </span>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="wallet-menu">
+            <% ScrapableAddress.where(is_hot_wallet: false).each do |wallet| %>
+              <%= link_to wallet.name, wallet_path(wallet), class: "dropdown-item"  %>
+            <% end -%>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="toggleDropdown('#navbarDropdown2')">
+            Hot Wallets
+          </span>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown2" id="wallet-menu">
+            <% ScrapableAddress.where(is_hot_wallet: true).each do |wallet| %>
+              <%= link_to wallet.name, wallet_path(wallet), class: "dropdown-item"  %>
+            <% end -%>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <%= link_to "All Tags", tags_path, class: "nav-link" %>
+        </li>
       </ul>
     </div>    
   </div>
 </nav>
+
+<script type="text/javascript">
+  $('.navbar-toggler').click(function() {
+    $('#navbarSupportedContent').collapse('toggle')
+  })
+  function toggleDropdown(selector) {
+    $(selector).dropdown('toggle')
+  }
+
+</script>

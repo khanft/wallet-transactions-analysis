@@ -1,0 +1,13 @@
+
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <div class="display-6" style="margin-top:10px;margin-bottom:10px;"><%= @tag.name %></div>
+        <%= render partial: 'shared/transactions', locals: { transactions: @tag.transactions, wallet: nil, wallets: @wallets }  %>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </section>
+</main>

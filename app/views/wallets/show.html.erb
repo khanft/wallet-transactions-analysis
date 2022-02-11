@@ -38,38 +38,8 @@
             <a class="btn btn-primary table1-selector" onClick="toggleTable('#table1')">
               Toggle data
             </a>
-            <table class="table collapse" id="table1" style="font-size: 0.8em;">
-              <thead>
-                <tr>
-                  <td>date</td>
-                  <td>tx hash</td>
-                  <td>to</td>
-                  <td>from</td>
-                  <td>flow</td>
-                  <td>labels</td>
-                </tr>
-              </thead>
-              <tbody>
-                <% @wallet_transactions.sort_by {|tx| tx.unixtimestamp }.each_with_index do |tx, i| %>
-                  <% if tx.flow(@wallet.address) != 0 %>
-                    <tr class="<%= tx.flow(@wallet.address) > 0 ? 'positive-flow' : 'negative-flow' %>">
-                      <td><%= Time.at(tx.unixtimestamp).strftime("%B %d, %Y") %></td>
-                      <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
-                      <td><%= wallet_resolver(@wallets, tx.to) %></td>
-                      <td><%= wallet_resolver(@wallets, tx.from) %></td>
-                      <td><%= tx.flow(@wallet.address) %></td>
-                      <td>
-                        <div class="labels" id="transactions-<%= tx.hash %>" >
-                          <% @all_categories.each do |c| %>
-                            <span class="badge badge-pill <%= (tx.categories.map(&:name).include? c.name) ? "badge-active" : "badge-inactive" %> tag tag-<%=c.name%>" onClick='toggleCategory(<%= tx.id %>, <%= c.id %>)'><%= c.name %></span>
-                          <% end -%> 
-                        </div> 
-                      </td>
-                    </tr>                
-                  <% end %>
-                <% end -%>
-              </tbody>
-            </table>
+            <%= render partial: 'shared/transactions', locals: { transactions: @wallet_transactions, wallet: @wallet, wallets: @wallets }  %>
+
           </div>
         </div>
         <div class="row">

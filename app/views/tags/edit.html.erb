@@ -1,0 +1,36 @@
+
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <div class="display-6" style="margin-top:10px;margin-bottom:10px;"><%= @tag.name %></div>
+        <%= form_with url: tag_search_path(@tag), local: false, method: :get do |form| %>
+          <div class="form-group">
+            <%= form.label :transaction_from, "FROM address:" %>
+            <%= form.text_field :transaction_from, class: "form-control"%>
+          </div>
+          <div class="form-group">
+            <%= form.label :transaction_to, "TO address:" %>
+            <%= form.text_field :transaction_to, class: "form-control" %>
+          </div>
+          <%= form.submit "Search", class: "btn btn-primary" %>
+        <% end %>
+        <%= form_with url: tag_bulk_update_path(@tag), local: false, method: :post do |form| %>
+          <%= form.hidden_field :hidden_transaction_from %>
+          <%= form.hidden_field :hidden_transaction_to %>
+          <%= form.submit "Tag all matching entries", class: "btn btn-primary" %>
+        <% end %>
+        <div class="transaction-results-summary">
+          
+        </div>
+        <div class="transaction-results">
+          
+        </div>
+
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </section>
+</main>
+
