@@ -114,8 +114,19 @@
               <div class="row" style="margin-top:10px;margin-bottom: 5px;">
                 <div class="col-lg-10 bd-callout bd-callout-warning" style="margin-top:10px;margin-bottom: 10px;">
                   <h6><%= key %> Inflow: <%= @erc20_inflows[key] %></h6>
+                  <% if key == "WETH" %>
+                    <h6 style="font-size: 0.9em">+WETH Inflow via Wrapping: <%= @weth_wrapped.map {|tx| tx.value / 10.0 ** 18}.sum %></h6>
+                  <% end %>
                   <h6><%= key %> Outflow: <%= @erc20_outflows[key].present? ? @erc20_outflows[key] : 0 %></h6>
-                  <h6>Calculated balance (<%= key %>): <%= @erc20_inflows[key] - (@erc20_outflows[key].present? ? @erc20_outflows[key] : 0) %></h6>
+                  <% if key == "WETH" %>
+                    <h6 style="font-size: 0.9em">+WETH Outflow via Unwrapping: <%= @weth_unwrapped.map {|tx| tx.value / 10.0 ** 18}.sum %></h6>
+                  <% end %>
+                  <% if key == "WETH" %>
+                    <h6>Calculated balance (<%= key %>): <%= @erc20_inflows[key] + (@weth_wrapped.map {|tx| tx.value / 10.0 ** 18}.sum) - (@erc20_outflows[key].present? ? @erc20_outflows[key] : 0) - (@weth_unwrapped.map {|tx| tx.value / 10.0 ** 18}.sum)%></h6>
+                  <% else %>
+                    <h6>Calculated balance (<%= key %>): <%= @erc20_inflows[key] - (@erc20_outflows[key].present? ? @erc20_outflows[key] : 0) %></h6>
+                  <% end %>
+                  
                 </div>
                 <div class="col-lg-1" style="margin-top:10px;margin-bottom: 10px;">
                   <a class="btn btn-primary table1-selector" onClick="toggleTable('#table-<%= key %>')">

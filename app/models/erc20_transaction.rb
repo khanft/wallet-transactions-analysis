@@ -1,6 +1,7 @@
 class Erc20Transaction < ApplicationRecord
   has_many :transaction_categorizations
   has_many :categories, through: :transaction_categorizations
+  WRAPPED_ETHER_CONTRACT_ADDRESS = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 
   def self.grouped_by_erc20 address
     tokens = Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).map(&:token_symbol).uniq
@@ -48,6 +49,12 @@ class Erc20Transaction < ApplicationRecord
   end
   def self.inflow_by_token(address, token_symbol)
     Erc20Transaction.where('lower(erc20_transactions.to) = ?', address.downcase).where.not(value: 0).where(token_symbol: token_symbol).order(:unixtimestamp)
+  end
+  def self.synthetic_weth_inflows(address)
+    Transaction.where('lower(transactions.from) = ?', address.downcase).where('lower(transactions.to) = ?', WRAPPED_ETHER_CONTRACT_ADDRESS)
+  end
+  def self.synthetic_weth_outflows(address)
+    InternalTransaction.where('lower(internal_transactions.to) = ?', address.downcase).where('lower(internal_transactions.from) = ?', WRAPPED_ETHER_CONTRACT_ADDRESS)
   end
   def self.outflow_by_token(address, token_symbol)
     Erc20Transaction.where('lower(erc20_transactions.from) = ?', address.downcase).where.not(value: 0).where(token_symbol: token_symbol).order(:unixtimestamp)
