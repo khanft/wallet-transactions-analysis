@@ -1,2 +1,0 @@
-module Erc20TransactionsHelper
-end

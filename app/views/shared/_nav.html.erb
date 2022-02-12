@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
-          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="toggleDropdown('#navbarDropdown')">
+          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Multi-Sig Wallets
           </span>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="wallet-menu">
@@ -18,7 +18,7 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick="toggleDropdown('#navbarDropdown2')">
+          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Hot Wallets
           </span>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown2" id="wallet-menu">
@@ -34,13 +34,3 @@
     </div>    
   </div>
 </nav>
-
-<script type="text/javascript">
-  $('.navbar-toggler').click(function() {
-    $('#navbarSupportedContent').collapse('toggle')
-  })
-  function toggleDropdown(selector) {
-    $(selector).dropdown('toggle')
-  }
-
-</script>

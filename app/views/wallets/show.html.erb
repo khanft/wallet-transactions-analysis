@@ -35,7 +35,7 @@
           <div class="col-lg-10 bd-callout bg-light" style="margin-top:10px">
 
             <h4 class="fw-light">Transactions (only non-zero flow)</h4>
-            <a class="btn btn-primary table1-selector" onClick="toggleTable('#table1')">
+            <a class="btn btn-primary table1-selector" data-bs-toggle="collapse" href="#table1">
               Toggle data
             </a>
             <%= render partial: 'shared/transactions', locals: { transactions: @wallet_transactions, wallet: @wallet, wallets: @wallets }  %>
@@ -46,7 +46,7 @@
           <div class="col-lg-1"></div>
           <div class="col-lg-10 bd-callout bg-light" style="margin-top:10px">
             <h4 class="fw-light">Internal Transactions</h1>
-            <a class="btn btn-primary table1-selector" onClick="toggleTable('#table2')">
+            <a class="btn btn-primary table1-selector" data-bs-toggle="collapse" href="#table2">
               Toggle data
             </a>
             <table class="table collapse" id='table2' style="font-size: 0.8em;">
@@ -99,7 +99,7 @@
                   
                 </div>
                 <div class="col-lg-1" style="margin-top:10px;margin-bottom: 10px;">
-                  <a class="btn btn-primary table1-selector" onClick="toggleTable('#table-<%= key %>')">
+                  <a class="btn btn-primary table1-selector" data-bs-toggle="collapse" href="#table-<%= key %>">
                     Toggle <%= key %> Data
                   </a>
                 </div>
