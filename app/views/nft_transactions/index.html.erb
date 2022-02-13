@@ -1,0 +1,13 @@
+<main>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+      	<h6>NFT Transactions</h6>
+        <%= link_to "Export csv", nft_transactions_path(format: :csv)  %>
+      	<%= render partial: 'shared/transactions', locals: { transactions: @transactions, wallet: nil, wallets: ScrapableAddress.all }  %>
+      </div>
+    </div>
+  </section>
+</main>
+

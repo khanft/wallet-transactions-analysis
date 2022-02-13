@@ -4,4 +4,7 @@
  	$('.transaction-results').html('<%= escape_javascript render partial: "shared/transactions", locals: { transactions: @transactions, wallet: nil, wallets: @wallets }  %>');
  	$('#hidden_transaction_to').attr('value', '<%= @transaction_to%>');
  	$('#hidden_transaction_from').attr('value', '<%= @transaction_from%>');
+ 	$('#hidden_positive_cash').attr('value', '<%= @positive%>');
+ 	$('#hidden_negative_cash').attr('value', '<%= @negative%>');
+ 	$('#hidden_neutral_cash').attr('value', '<%= @neutral%>');
 <% end %>

@@ -7,7 +7,9 @@
       <td>from</td>
       <% unless wallet.nil? %>
 	      <td>flow</td>
-	     <% end -%>
+      <% else %>
+        <td>value</td>
+	    <% end -%>
       <td>labels</td>
     </tr>
   </thead>
@@ -19,6 +21,12 @@
           <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
           <td><%= wallet_resolver(wallets, tx.to) %></td>
           <td><%= wallet_resolver(wallets, tx.from) %></td>
+          <% if tx.respond_to? :value %>
+            <td><%= tx.value / 10**18 %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+          
           <td>
             <div class="labels" id="transactions-<%= tx.hash %>" >
               <% tx.categories.each do |c| %>
@@ -34,9 +42,7 @@
 	          <td><%= link_to "#{tx.hash[0...10]}...", "https://etherscan.io/tx/#{tx.hash}" %></td>
 	          <td><%= wallet_resolver(wallets, tx.to) %></td>
 	          <td><%= wallet_resolver(wallets, tx.from) %></td>
-            <% unless wallet.nil? %>
-	           <td><%= tx.flow(wallet.address) %></td>
-            <% end -%>
+            <td><%= tx.flow(wallet.address) %></td>
 	          <td>
 	            <div class="labels" id="transactions-<%= tx.hash %>" >
 	              <% tx.categories.each do |c| %>

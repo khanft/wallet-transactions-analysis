@@ -1,6 +1,10 @@
+load 'app/models/concerns/generate_csv.rb'
+
 class Erc20Transaction < ApplicationRecord
   has_many :transaction_categorizations
   has_many :categories, through: :transaction_categorizations
+  include GenerateCSV
+  
   WRAPPED_ETHER_CONTRACT_ADDRESS = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 
   def self.grouped_by_erc20 address

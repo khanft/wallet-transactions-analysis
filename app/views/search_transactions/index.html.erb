@@ -1,11 +1,10 @@
-
 <main>
   <section class="container-fluid">
     <div class="row">
       <div class="col-lg-1"></div>
-      <div class="col-lg-10">
-        <div class="display-6" style="margin-top:10px;margin-bottom:10px;"><%= @tag.name %></div>
-        <%= form_with url: tag_search_path(@tag), local: false, method: :get, turbolinks: false do |form| %>
+      <div class="col-lg-5">
+        <div class="display-6" style="margin-top:10px;margin-bottom:10px;">Search Transactions</div>
+        <%= form_with url: query_search_transactions_path, local: false, method: :get, turbolinks: false do |form| %>
           <div class="form-group">
             <%= form.label :transaction_from, "FROM address:" %>
             <%= form.text_field :transaction_from, class: "form-control"%>
@@ -28,18 +27,29 @@
           </div>
           <%= form.submit "Search", class: "btn btn-primary" %>
         <% end %>
-        <%= form_with url: tag_bulk_update_path(@tag), local: false, method: :post do |form| %>
+      </div>
+      <div class="col-lg-5" style="padding-top: 200px;">
+        <%= form_with url: bulk_update_search_transactions_path, local: false, method: :post, turbolinks: false do |form| %>
+          <%= form.select "tag_id", options_from_collection_for_select(Category.all, "id", "name") %>
           <%= form.hidden_field :hidden_transaction_from %>
           <%= form.hidden_field :hidden_transaction_to %>
+          <%= form.hidden_field :hidden_positive_cash %>
+          <%= form.hidden_field :hidden_negative_cash %>
+          <%= form.hidden_field :hidden_neutral_cash %>
           <%= form.submit "Tag all matching entries", class: "btn btn-primary" %>
         <% end %>
-        <div class="transaction-results-summary">
-          
-        </div>
-        <div class="transaction-results">
-          
-        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <div class="transaction-results-summary"></div>
+        <div class="transaction-results"></div>
       </div>
       <div class="col-lg-1"></div>
     </div>

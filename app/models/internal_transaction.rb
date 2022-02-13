@@ -1,6 +1,10 @@
+load 'app/models/concerns/generate_csv.rb'
+
 class InternalTransaction < ApplicationRecord
+  include GenerateCSV
+  
   def categories
-    TransactionCategorization.where(internal_tranaction_id: self.id).map(&:category)
+    TransactionCategorization.where(internal_transaction_id: self.id).map(&:category)
   end
   def self.eth_inflows(address)
     nonzero_transactions = InternalTransaction.where('lower(internal_transactions.to) = ?', address.downcase).where.not(value: 0).where.not(is_error: true).all
