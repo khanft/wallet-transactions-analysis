@@ -1,5 +1,3 @@
-load 'app/models/concerns/generate_csv.rb'
-
 class Erc20Transaction < ApplicationRecord
   has_many :transaction_categorizations
   has_many :categories, through: :transaction_categorizations

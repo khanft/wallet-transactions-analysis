@@ -1,5 +1,3 @@
-load 'app/models/concerns/generate_csv.rb'
-
 class InternalTransaction < ApplicationRecord
   include GenerateCSV
   

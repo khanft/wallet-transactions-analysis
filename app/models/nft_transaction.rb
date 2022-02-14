@@ -1,5 +1,3 @@
-load 'app/models/concerns/generate_csv.rb'
-
 class NftTransaction < ApplicationRecord
   include GenerateCSV
   
