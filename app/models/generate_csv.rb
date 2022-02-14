@@ -1,5 +1,5 @@
 require "csv"
-module GenerateCSV
+module GenerateCsv
   extend ActiveSupport::Concern
 
   class_methods do

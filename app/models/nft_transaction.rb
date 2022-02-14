@@ -1,5 +1,5 @@
 class NftTransaction < ApplicationRecord
-  include GenerateCSV
+  include GenerateCsv
   
   def categories
     TransactionCategorization.where(nft_transaction_id: self.id).map(&:category)

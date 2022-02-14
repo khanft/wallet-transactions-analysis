@@ -1,5 +1,5 @@
 class InternalTransaction < ApplicationRecord
-  include GenerateCSV
+  include GenerateCsv
   
   def categories
     TransactionCategorization.where(internal_transaction_id: self.id).map(&:category)

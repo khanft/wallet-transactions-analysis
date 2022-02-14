@@ -1,7 +1,7 @@
 class Erc20Transaction < ApplicationRecord
   has_many :transaction_categorizations
   has_many :categories, through: :transaction_categorizations
-  include GenerateCSV
+  include GenerateCsv
   
   WRAPPED_ETHER_CONTRACT_ADDRESS = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 
