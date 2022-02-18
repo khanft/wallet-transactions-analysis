@@ -1,0 +1,1 @@
+$('#transactions-<%= @transaction.hash %>-<%= @transaction.id %>').html('<% @transaction.categories.each do |c| %><span class="badge badge-pill badge-active tag"><%= c.name %></span> <% end %>');

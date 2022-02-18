@@ -11176,3 +11176,19 @@ a.badge.badge-pill.badge-active:hover {
 .table .negative-flow {
   background-color: rgba(255, 0, 0, 0.1);
 }
+
+.tag-submission {
+  border: none;
+  transition: background-color, color 0.2s;
+  background-color: white;
+}
+.tag-submission:hover {
+  background-color: #101010;
+  color: #f0f0f0;
+}
+
+.tag-select.form-select {
+  padding: 0.2rem 1.25rem 0.2rem 0.4rem;
+  line-height: 1.25;
+  margin-bottom: 7px;
+}

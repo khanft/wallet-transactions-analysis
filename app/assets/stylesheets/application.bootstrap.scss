@@ -60,3 +60,20 @@ a.badge.badge-pill.badge-active {
         background-color: rgba(255, 0, 0, 0.1);
     }
 }
+
+
+.tag-submission {
+    border: none;
+    transition: background-color, color 0.2s;
+    background-color: rgb(255,255,255);
+    &:hover {
+        background-color: rgb(16,16,16);
+        color: rgb(240,240,240);
+    }
+}
+
+.tag-select.form-select {
+    padding: 0.200rem 1.25rem 0.200rem 0.40rem;
+    line-height: 1.25;
+    margin-bottom: 7px;
+}

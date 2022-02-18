@@ -53,7 +53,7 @@ gem "bootsnap", require: false
 gem "web3-eth"
 gem "pry-rails"
 gem "ethereum.rb"
-
+gem "net-http"
 
 group :development, :test do
   gem "dotenv-rails"

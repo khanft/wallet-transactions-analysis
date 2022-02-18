@@ -11,6 +11,7 @@
         <td>value</td>
 	    <% end -%>
       <td>labels</td>
+      <td style="min-width:200px">add tag</td>
     </tr>
   </thead>
   <tbody>
@@ -23,17 +24,24 @@
           <td><%= wallet_resolver(wallets, tx.from) %></td>
           <% if tx.respond_to? :value %>
             <td><%= tx.value / 10**18 %></td>
-          <% else %>
-            <td></td>
           <% end %>
-          
           <td>
             <div class="labels" id="transactions-<%= tx.hash %>" >
               <% tx.categories.each do |c| %>
                 <span class="badge badge-pill badge-active tag"><%= c.name %></span>
               <% end -%> 
-            </div> 
+            </div>   
           </td>
+
+          <td class="min-width:100px">
+            <%= form_for tx, remote: true, local: false, turbolinks: false do |f| -%>
+              <div class="form-group">
+                <%= f.collection_select :category_ids, Category.all, :id, :name, class: "form-select tag-select" %>
+                <%= f.submit "Tag", class: "tag-submission" %>
+              </div>
+            <% end -%>
+          </td>
+          
         </tr>   
       <% else %>
 	      <% if tx.flow(wallet.address) != 0 %>
@@ -44,12 +52,20 @@
 	          <td><%= wallet_resolver(wallets, tx.from) %></td>
             <td><%= tx.flow(wallet.address) %></td>
 	          <td>
-	            <div class="labels" id="transactions-<%= tx.hash %>" >
+	            <div class="labels" id="transactions-<%= tx.hash %>-<%= tx.id %>" >
 	              <% tx.categories.each do |c| %>
 	                <span class="badge badge-pill badge-active tag"><%= c.name %></span>
 	              <% end -%> 
 	            </div> 
 	          </td>
+            <td>
+              <%= form_for tx, remote: true, local: false, turbolinks: false do |f| -%>
+                <div class="form-group">
+                  <%= f.collection_select :category_ids, Category.all, :id, :name, {}, class: "form-select tag-select" %>
+                  <%= f.submit "Tag", class: "tag-submission" %>
+                </div>
+              <% end -%>
+            </td>
 	        </tr>                
 	      <% end %>
 	   <% end -%>

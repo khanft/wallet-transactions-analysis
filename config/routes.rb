@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root to: 'wallets#index'
   resources :wallets, only: [:index, :show]
-  resources :transactions, only: :index
+  resources :transactions
   resources :internal_transactions, only: :index
   resources :nft_transactions, only: :index
   resources :erc20_transactions, only: :index
