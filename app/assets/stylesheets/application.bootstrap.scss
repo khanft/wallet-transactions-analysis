@@ -63,7 +63,10 @@ a.badge.badge-pill.badge-active {
 
 
 .tag-submission {
-    border: none;
+    border-style: solid;
+    border-width: 1px;
+    
+
     transition: background-color, color 0.2s;
     background-color: rgb(255,255,255);
     &:hover {
@@ -73,7 +76,7 @@ a.badge.badge-pill.badge-active {
 }
 
 .tag-select.form-select {
-    padding: 0.200rem 1.25rem 0.200rem 0.40rem;
+    padding: 2px 1.25rem 2px 0.40rem;
     line-height: 1.25;
     margin-bottom: 7px;
 }

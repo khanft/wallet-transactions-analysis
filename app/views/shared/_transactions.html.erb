@@ -36,7 +36,7 @@
           <td class="min-width:100px">
             <%= form_for tx, remote: true, local: false, turbolinks: false do |f| -%>
               <div class="form-group">
-                <%= f.collection_select :category_ids, Category.all, :id, :name, class: "form-select tag-select" %>
+                <%= f.collection_select :category_ids, Category.all, :id, :name, {}, class: "form-select tag-select" %>
                 <%= f.submit "Tag", class: "tag-submission" %>
               </div>
             <% end -%>

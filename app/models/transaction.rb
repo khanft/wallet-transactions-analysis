@@ -34,5 +34,4 @@ class Transaction < ApplicationRecord
     end
     return (self.value.to_f / 10.0**18) * -1
   end
-
 end

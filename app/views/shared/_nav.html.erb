@@ -11,7 +11,7 @@
           <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Multi-Sig Wallets
           </span>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="wallet-menu">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <% ScrapableAddress.where(is_hot_wallet: false).each do |wallet| %>
               <%= link_to wallet.name, wallet_path(wallet), class: "dropdown-item"  %>
             <% end -%>
@@ -21,14 +21,20 @@
           <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Hot Wallets
           </span>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown2" id="wallet-menu">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
             <% ScrapableAddress.where(is_hot_wallet: true).each do |wallet| %>
               <%= link_to wallet.name, wallet_path(wallet), class: "dropdown-item"  %>
             <% end -%>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <%= link_to "Search transactions", search_transactions_path, class: "nav-link" %>
+          <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Search
+          </span>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+            <%= link_to "Transactions", search_transactions_path, class: "nav-link" %>
+          </div>
+          
         </li>
       </ul>
     </div>    
